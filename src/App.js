@@ -15,6 +15,8 @@ function App() {
     <div className="App">
       <header className="App-header">Decidr</header>
       <div className="list-div">{generateList}</div>
+      <input type="text"></input>
+      <button>Add Item</button>
     </div>
   );
 }
