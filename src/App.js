@@ -32,6 +32,12 @@ function App() {
     // console.log("changeText=", text);
   };
 
+  const chooseItem = () => {
+    const choice =
+      listContainer[Math.floor(Math.random() * listContainer.length)];
+    setListContainer([choice]);
+  };
+
   return (
     <div className="App">
       <header className="App-header">Decidr</header>
@@ -47,6 +53,7 @@ function App() {
         ></input>
         <button type="submit">Add Item</button>
       </form>
+      <button onClick={chooseItem}>Select Item</button>
     </div>
   );
 }
