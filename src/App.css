@@ -14,14 +14,30 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 7vh;
+  /* background-color: rgb(69, 130, 133); */
+  min-height: 12vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: calc(10px + 8vmin);
+  /* color: linear-gradient(180deg, red, yellow); */
+  font-family: Bookman old-style;
+  letter-spacing: 0.8rem;
+  font-weight: bold;
+  width: fit-content;
+  margin: 0 auto;
+  border: solid 2px transparent;
+  border-radius: 40px;
+  padding: 0 2rem;
+}
+
+.header-text {
+  /* background-color: var(--red); */
+  font-size: 80px;
+  background: -webkit-linear-gradient(#eee, rgb(59, 114, 139));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .App-link {
@@ -42,5 +58,129 @@ form {
 }
 
 input {
+  padding: 0.3rem;
   text-align: center;
+  border: solid 2px rgb(59, 114, 139);
+  border-radius: 25px;
 }
+
+input:focus {
+  outline: none;
+}
+
+.list-parent {
+  border: solid 2px rgb(59, 114, 139);
+  border-radius: 25px;
+  width: 45vw;
+  height: 54vh;
+  margin: 5vh auto;
+  padding: 4vh;
+  margin-top: 1vh;
+}
+
+.list-div {
+  /* background-color: rgb(199, 238, 245); */
+
+  height: 54vh;
+  overflow-y: auto;
+  width: 40vw;
+  /* margin: 5vh auto; */
+  text-align: left;
+  padding-left: 2rem;
+  font-size: 2rem;
+  /* white-space: nowrap; */
+}
+
+.reveal-parent {
+  border: solid 2px rgb(59, 114, 139);
+  border-radius: 25px;
+  width: 45vw;
+  height: 54vh;
+  margin: 5vh auto;
+  padding: 4vh;
+  margin-top: 1vh;
+}
+
+.reveal-div {
+  height: 54vh;
+  overflow: auto;
+  width: 44vw;
+  /* margin: 5vh auto; */
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  color: rgb(59, 114, 139);
+}
+
+/* .App-header { */
+/* background-color: rgb(69, 130, 133); */
+/* min-height: 12vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 8vmin);
+  /* color: linear-gradient(180deg, red, yellow); */
+/* font-family: Bookman old-style;
+  letter-spacing: 0.8rem;
+  font-weight: bold;
+  width: fit-content;
+  margin: 0 auto;
+  border: solid 2px transparent;
+  border-radius: 40px;
+  padding: 0 2rem; */
+/* }  */
+
+/* .header-text { */
+/* background-color: var(--red); */
+/* font-size: 80px;
+  background: -webkit-linear-gradient(#eee, rgb(26, 72, 93));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+} */
+
+/* 
+form {
+  margin: 2rem;
+}
+
+input {
+  padding: 0.3rem;
+  text-align: center;
+  border: solid 2px linear-gradient(#eee, rgb(26, 72, 93));
+  border-image-slice: 1;
+  border-radius: 25px;
+} */
+
+/* input:focus {
+  outline: none;
+}
+
+.list-parent {
+  border: 3px solid transparent;
+  border-image: linear-gradient(#eee, rgb(26, 72, 93));
+  border-image-slice: 1;
+  border-radius: 20px;
+
+  width: 45vw;
+  height: 54vh;
+  margin: 5vh auto;
+  padding: 4vh;
+  margin-top: 1vh;
+} */
+
+/* .list-div { */
+/* background-color: rgb(199, 238, 245); */
+
+/* height: 54vh;
+  overflow-y: auto;
+  width: 40vw; */
+/* margin: 5vh auto; */
+/* text-align: left;
+  padding-left: 2rem;
+  font-size: 2rem; */
+/* white-space: nowrap; */
+/* } */

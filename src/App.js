@@ -6,10 +6,22 @@ function App() {
   const [listContainer, setListContainer] = useState([]);
   const [text, onChangeText] = useState("");
   const [placeholder, setPlaceholder] = useState("enter item here");
+  const [appState, setAppState] = useState("initial");
+  const [revealFontSize, setRevealFontSize] = useState('6rem');
+
+  let itemStyle = {};
+  if (appState === "reveal") {
+    
+    itemStyle = {
+      textAlign: "center",
+      fontSize: "6rem",
+      verticalAlign: "center",
+    };
+  }
 
   const generateList = listContainer.map((items, index) => (
     <div key={index}>
-      <h3>{items}</h3>
+      <h3 style={itemStyle}>{items}</h3>
     </div>
   ));
 
@@ -36,12 +48,22 @@ function App() {
     const choice =
       listContainer[Math.floor(Math.random() * listContainer.length)];
     setListContainer([choice]);
+    setAppState("reveal");
   };
 
   return (
     <div className="App">
-      <header className="App-header">Decidr</header>
-      <div className="list-div">{generateList}</div>
+      <header className="App-header">
+        <span className="header-text">Decidr</span>
+      </header>
+      {appState === "initial" && (
+      <div className="list-parent">
+        <div className="list-div">{generateList}</div>
+          </div>
+        )}
+        {appState === "reveal" &&  (
+        <div className="reveal-parent"><div className="reveal-div">{generateList}</div></div>)}
+      
       <form onSubmit={addItem}>
         <input
           type="text"
