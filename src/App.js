@@ -7,11 +7,12 @@ function App() {
   const [text, onChangeText] = useState("");
   const [placeholder, setPlaceholder] = useState("enter item here");
   const [appState, setAppState] = useState("initial");
-  const [revealFontSize, setRevealFontSize] = useState('6rem');
+  const [revealFontSize, setRevealFontSize] = useState("6rem");
+  const [lastGroup, setLastGroup] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
 
   let itemStyle = {};
   if (appState === "reveal") {
-    
     itemStyle = {
       textAlign: "center",
       fontSize: "6rem",
@@ -45,9 +46,29 @@ function App() {
   };
 
   const chooseItem = () => {
+    setLastGroup(listContainer);
     const choice =
       listContainer[Math.floor(Math.random() * listContainer.length)];
     setListContainer([choice]);
+    setSelectedItem(choice);
+    setAppState("reveal");
+  };
+
+  const chooseAgainWith = () => {
+    // setLastGroup(listContainer);
+    const choice = lastGroup[Math.floor(Math.random() * lastGroup.length)];
+    setListContainer([choice]);
+    setSelectedItem(choice);
+    setAppState("reveal");
+  };
+
+  const chooseAgainWithout = () => {
+    // setLastGroup(listContainer);
+    let updatedGroup = lastGroup.filter((item) => item !== selectedItem);
+    const choice =
+      updatedGroup[Math.floor(Math.random() * updatedGroup.length)];
+    setListContainer([choice]);
+    setSelectedItem(choice);
     setAppState("reveal");
   };
 
@@ -57,13 +78,16 @@ function App() {
         <span className="header-text">Decidr</span>
       </header>
       {appState === "initial" && (
-      <div className="list-parent">
-        <div className="list-div">{generateList}</div>
-          </div>
-        )}
-        {appState === "reveal" &&  (
-        <div className="reveal-parent"><div className="reveal-div">{generateList}</div></div>)}
-      
+        <div className="list-parent">
+          <div className="list-div">{generateList}</div>
+        </div>
+      )}
+      {appState === "reveal" && (
+        <div className="reveal-parent">
+          <div className="reveal-div">{generateList}</div>
+        </div>
+      )}
+
       <form onSubmit={addItem}>
         <input
           type="text"
@@ -75,7 +99,42 @@ function App() {
         ></input>
         <button type="submit">Add Item</button>
       </form>
-      <button onClick={chooseItem}>Select Item</button>
+      {listContainer.length > 1 && (
+        <button onClick={chooseItem}>Select Item</button>
+      )}
+      {appState === "reveal" && (
+        <div>
+          <button
+            onClick={() => {
+              // setAppState("initial");
+              setListContainer(lastGroup);
+              chooseAgainWith();
+            }}
+          >
+            Choose again with {listContainer}
+          </button>
+          <button
+            onClick={() => {
+              setListContainer(
+                lastGroup.filter((item) => item !== selectedItem)
+              );
+              // setAppState("initial");
+              chooseAgainWithout();
+              console.log("new choices:", listContainer);
+            }}
+          >
+            Choose again without {listContainer}
+          </button>
+          <button
+            onClick={() => {
+              setAppState("initial");
+              setListContainer([]);
+            }}
+          >
+            Start Over
+          </button>
+        </div>
+      )}
     </div>
   );
 }
