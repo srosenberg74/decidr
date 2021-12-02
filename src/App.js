@@ -15,15 +15,36 @@ function App() {
   if (appState === "reveal") {
     itemStyle = {
       textAlign: "center",
-      fontSize: "6rem",
+      fontSize: revealFontSize,
       verticalAlign: "center",
+      margin: "auto",
+      alignSelf: "center",
     };
   }
 
+  const deleteItem = (index) =>
+    setListContainer(listContainer.filter((value, i) => i !== index));
+
   const generateList = listContainer.map((items, index) => (
-    <div key={index}>
-      <h3 style={itemStyle}>{items}</h3>
-    </div>
+    <>
+      {appState === "initial" && (
+        <button
+          key={index}
+          className="item-holder"
+          onClick={() => deleteItem(index)}
+        >
+          <h3 style={itemStyle}>{items}</h3>
+          {/* <div className="button-delete-container">
+        <button className="button-delete">X</button>
+      </div> */}
+        </button>
+      )}
+      {appState === "reveal" && (
+        <div key={index} className="reveal-holder">
+          <h3 style={itemStyle}>{items}</h3>
+        </div>
+      )}
+    </>
   ));
 
   const addItem = (event) => {
@@ -64,11 +85,18 @@ function App() {
 
   const chooseAgainWithout = () => {
     // setLastGroup(listContainer);
+    // *** this next line should be lastGroup.length < 1, app is behaving incorrectly, need to find bug, unless it is just because of delay in state updating
+    if (lastGroup.length < 2) {
+      setListContainer(["no more items left to choose from!"]);
+      return;
+    }
+    console.log(lastGroup);
     let updatedGroup = lastGroup.filter((item) => item !== selectedItem);
     const choice =
       updatedGroup[Math.floor(Math.random() * updatedGroup.length)];
     setListContainer([choice]);
     setSelectedItem(choice);
+    setLastGroup(updatedGroup);
     setAppState("reveal");
   };
 
@@ -80,11 +108,12 @@ function App() {
       {appState === "initial" && (
         <div className="list-parent">
           <div className="list-div">{generateList}</div>
+          <h5 className="delete-message">**click on any item to delete it**</h5>
         </div>
       )}
       {appState === "reveal" && (
         <div className="reveal-parent">
-          <div className="reveal-div">{generateList}</div>
+          <div className="reveal-div App-logo">{generateList}</div>
         </div>
       )}
 
@@ -97,14 +126,19 @@ function App() {
           // placeholder="enter item here"
           autoFocus
         ></input>
-        <button type="submit">Add Item</button>
+        <button className="button-style" type="submit">
+          Add Item
+        </button>
       </form>
       {listContainer.length > 1 && (
-        <button onClick={chooseItem}>Select Item</button>
+        <button className="button-style" onClick={chooseItem}>
+          Select Item
+        </button>
       )}
       {appState === "reveal" && (
         <div>
           <button
+            className="button-style"
             onClick={() => {
               // setAppState("initial");
               setListContainer(lastGroup);
@@ -114,6 +148,7 @@ function App() {
             Choose again with {listContainer}
           </button>
           <button
+            className="button-style"
             onClick={() => {
               setListContainer(
                 lastGroup.filter((item) => item !== selectedItem)
@@ -126,6 +161,7 @@ function App() {
             Choose again without {listContainer}
           </button>
           <button
+            className="button-style"
             onClick={() => {
               setAppState("initial");
               setListContainer([]);
