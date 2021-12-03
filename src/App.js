@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useState } from "react";
 
@@ -35,9 +34,6 @@ function App() {
           onClick={() => deleteItem(index)}
         >
           <h3 style={itemStyle}>{items}</h3>
-          {/* <div className="button-delete-container">
-        <button className="button-delete">X</button>
-      </div> */}
         </button>
       )}
       {appState === "reveal" && (
@@ -76,7 +72,6 @@ function App() {
   const handleChange = (event) => {
     onChangeText(event.target.value);
     event.preventDefault();
-    // console.log("changeText=", text);
   };
 
   const chooseItem = () => {
@@ -95,7 +90,6 @@ function App() {
   };
 
   const chooseAgainWith = () => {
-    // setLastGroup(listContainer);
     const choice = lastGroup[Math.floor(Math.random() * lastGroup.length)];
     setListContainer([choice]);
     setSelectedItem(choice);
@@ -104,7 +98,6 @@ function App() {
   };
 
   const chooseAgainWithout = () => {
-    // setLastGroup(listContainer);
     // *** this next line should be lastGroup.length < 1, app is behaving incorrectly, need to find bug, unless it is just because of delay in state updating
     if (lastGroup.length < 2) {
       setListContainer(["no more items left to choose from!"]);
@@ -159,7 +152,6 @@ function App() {
           value={text}
           onChange={handleChange}
           placeholder={placeholder}
-          // placeholder="enter item here"
           autoFocus
         ></input>
         <button className="button-style" type="submit">
@@ -177,7 +169,6 @@ function App() {
             className="button-style"
             onClick={() => {
               setAnimatedList("reveal-div reveal-again");
-              // setAppState("initial");
               setListContainer(lastGroup);
               chooseAgainWith();
             }}
@@ -190,7 +181,6 @@ function App() {
               setListContainer(
                 lastGroup.filter((item) => item !== selectedItem)
               );
-              // setAppState("initial");
               chooseAgainWithout();
               setAnimatedList("reveal-div reveal-again");
               console.log("new choices:", listContainer);
