@@ -22,6 +22,11 @@
   pointer-events: none;
 }
 
+.slide-around {
+  height: 40vmin;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin 1 0.8s ease-in;
@@ -31,6 +36,12 @@
 @media (prefers-reduced-motion: no-preference) {
   .reveal-again {
     animation: reveal-again 1 0.8s ease-in;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slide-around {
+    animation: reveal-again infinite 3.8s ease-in;
   }
 }
 
@@ -46,7 +57,7 @@
   letter-spacing: 0.8rem;
   font-weight: bold;
   width: fit-content;
-  margin: 0 auto;
+  margin: auto;
   margin-top: 10px;
   border: solid 2px transparent;
   border-radius: 40px;
@@ -58,6 +69,8 @@
   background: -webkit-linear-gradient(#eee, rgb(59, 114, 139));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin: auto;
+  padding: auto;
   /* transform: scale(1.3, 1.2); */
 }
 
@@ -82,6 +95,7 @@
 @keyframes reveal-again {
   0% {
     transform: scale(0);
+    transform: rotateY(0);
     opacity: 0;
   }
   50% {
@@ -89,7 +103,40 @@
   }
   100% {
     transform: scale(1);
+    transform: rotateY(720);
     opacity: 1;
+  }
+}
+
+@keyframes slide-around {
+  0% {
+    margin-left: 100%;
+    width: 300%;
+    transform: rotate3d(0, 0, 0);
+  }
+
+  25% {
+    margin-left: 0%;
+    width: 100%;
+  }
+
+  50% {
+    margin-top: 80%;
+    margin-right: 80%;
+    width: 100%;
+  }
+
+  75% {
+    margin-left: 0%;
+    width: 100%;
+    transform: rotate3d(2, 2, 2, -2turn);
+  }
+
+  80% {
+    margin-right: 80%;
+    margin-top: 0%;
+    margin-bottom: 80%;
+    width: 100%;
   }
 }
 
@@ -202,4 +249,52 @@ h3 {
   justify-content: center;
   margin: auto;
   align-self: center;
+}
+
+@media screen and (max-width: 750px) {
+  .item-holder {
+    font-size: 3vw;
+  }
+
+  .list-div,
+  .reveal-div {
+    max-height: 35vh;
+  }
+
+  .list-parent,
+  .reveal-parent {
+    max-height: 40vh;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-holder {
+    font-size: 2.8vw;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .item-holder {
+    font-size: 4vw;
+  }
+
+  input {
+    margin-bottom: 4px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .item-holder {
+    font-size: 3vw;
+  }
+
+  .list-div,
+  .reveal-div {
+    max-height: 30vh;
+  }
+
+  .list-parent,
+  .reveal-parent {
+    max-height: 35vh;
+  }
 }

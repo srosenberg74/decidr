@@ -1,15 +1,34 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function App() {
   const [listContainer, setListContainer] = useState([]);
   const [text, onChangeText] = useState("");
   const [placeholder, setPlaceholder] = useState("enter item here");
   const [appState, setAppState] = useState("initial");
-  const [revealFontSize, setRevealFontSize] = useState("6rem");
+  const [revealFontSize, setRevealFontSize] = useState("2.4rem");
   const [lastGroup, setLastGroup] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
   const [animatedList, setAnimatedList] = useState("reveal-div App-logo");
+  const [viewWidth, setViewWidth] = useState(0);
+
+  useEffect(() => {
+    setViewWidth(window.innerWidth);
+    console.log(viewWidth);
+    if (viewWidth > 700) {
+      setRevealFontSize("6rem");
+      if (selectedItem.length > 9) {
+        setRevealFontSize("3rem");
+      }
+      if (selectedItem.length < 5) {
+        setRevealFontSize("9rem");
+      }
+    } else {
+      if (selectedItem.length > 7) {
+        setRevealFontSize("1.4rem");
+      }
+    }
+  }, [viewWidth, selectedItem, appState]);
 
   let itemStyle = {};
   if (appState === "reveal") {
@@ -26,22 +45,18 @@ function App() {
     setListContainer(listContainer.filter((value, i) => i !== index));
 
   const generateList = listContainer.map((items, index) => (
-    <>
+    <div key={index}>
       {appState === "initial" && (
-        <button
-          key={index}
-          className="item-holder"
-          onClick={() => deleteItem(index)}
-        >
+        <button className="item-holder" onClick={() => deleteItem(index)}>
           <h3 style={itemStyle}>{items}</h3>
         </button>
       )}
       {appState === "reveal" && (
-        <div key={index} className="reveal-holder App-logo">
+        <div className="reveal-holder App-logo">
           <h3 style={itemStyle}>{items}</h3>
         </div>
       )}
-    </>
+    </div>
   ));
 
   const addItem = (event) => {
@@ -102,7 +117,7 @@ function App() {
   const chooseAgainWithout = () => {
     // *** this next line should be lastGroup.length < 1, app is behaving incorrectly, need to find bug, unless it is just because of delay in state updating
     if (lastGroup.length < 2) {
-      setListContainer(["no more items left to choose from!"]);
+      setListContainer(["list is empty"]);
       return;
     }
     console.log(lastGroup);
@@ -127,7 +142,7 @@ function App() {
             <>
               <p>Let me help you choose!</p>
               <p style={{ margin: ".4rem" }}>
-                Please enter at least two items to choose from
+                Please enter at least two items to select from
               </p>
             </>
           )}
