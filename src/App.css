@@ -14,6 +14,7 @@
   overflow: hidden;
   margin: 0 auto;
   height: 100vh;
+  color: rgb(59, 114, 139);
   /* background-size: cover; */
 }
 
@@ -22,9 +23,20 @@
   pointer-events: none;
 }
 
+.reveal-again {
+  height: 40vmin;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin 1 0.8s ease-in;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-again {
+    animation: reveal-again 1 0.8s ease-in;
   }
 }
 
@@ -62,11 +74,30 @@
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  0% {
+    transform: scale(0);
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes reveal-again {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -96,7 +127,7 @@ input:focus {
   height: 54vh;
   margin: 1vh auto;
   padding: 4vh;
-  padding-bottom: 3.4vh;
+  padding-bottom: 4.4vh;
   margin-top: 1vh;
   text-align: center;
   background-color: whitesmoke;
@@ -105,7 +136,7 @@ input:focus {
 .list-div {
   /* background-color: rgb(199, 238, 245); */
 
-  height: 54vh;
+  max-height: 54vh;
   overflow-y: auto;
   /* width: 40vw; */
   /* margin: 5vh auto; */
@@ -120,7 +151,7 @@ input:focus {
   color: rgb(94, 130, 146);
   font-style: italic;
   /* transform: scale(0.8, 0.4); */
-  margin-top: 4px;
+  padding: 8px;
 }
 
 .reveal-parent {

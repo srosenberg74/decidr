@@ -10,6 +10,7 @@ function App() {
   const [revealFontSize, setRevealFontSize] = useState("6rem");
   const [lastGroup, setLastGroup] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
+  const [animatedList, setAnimatedList] = useState("reveal-div App-logo");
 
   let itemStyle = {};
   if (appState === "reveal") {
@@ -40,7 +41,7 @@ function App() {
         </button>
       )}
       {appState === "reveal" && (
-        <div key={index} className="reveal-holder">
+        <div key={index} className="reveal-holder App-logo">
           <h3 style={itemStyle}>{items}</h3>
         </div>
       )}
@@ -49,11 +50,23 @@ function App() {
 
   const addItem = (event) => {
     if (text.trim().length > 0) {
-      setListContainer([...listContainer, text.trim()]);
-      setPlaceholder("enter item here");
-      onChangeText("");
-      event.preventDefault();
-      console.log("listContainer=", listContainer);
+      const cleanedInput = text.trim().toLowerCase();
+      if (
+        listContainer.find(
+          (entry) => entry.trim().toLowerCase() === cleanedInput
+        )
+      ) {
+        setPlaceholder("This is a duplicate entry");
+        onChangeText("");
+        event.preventDefault();
+        setAppState("initial");
+      } else {
+        setListContainer([...listContainer, text.trim()]);
+        setPlaceholder("enter item here");
+        onChangeText("");
+        event.preventDefault();
+        setAppState("initial");
+      }
     } else {
       setPlaceholder("Invalid entry. Item was blank");
       event.preventDefault();
@@ -75,12 +88,19 @@ function App() {
     setAppState("reveal");
   };
 
+  const resetReveal = () => {
+    setAppState("initial");
+    setAppState("reveal");
+    setAnimatedList("reveal-div App-logo");
+  };
+
   const chooseAgainWith = () => {
     // setLastGroup(listContainer);
     const choice = lastGroup[Math.floor(Math.random() * lastGroup.length)];
     setListContainer([choice]);
     setSelectedItem(choice);
-    setAppState("reveal");
+    setAnimatedList("reveal-div App-logo");
+    resetReveal();
   };
 
   const chooseAgainWithout = () => {
@@ -97,7 +117,8 @@ function App() {
     setListContainer([choice]);
     setSelectedItem(choice);
     setLastGroup(updatedGroup);
-    setAppState("reveal");
+    setAnimatedList("reveal-div App-logo");
+    resetReveal();
   };
 
   return (
@@ -107,13 +128,28 @@ function App() {
       </header>
       {appState === "initial" && (
         <div className="list-parent">
+          {listContainer.length === 0 && (
+            <>
+              <p>Let me help you choose!</p>
+              <p style={{ margin: ".4rem" }}>
+                Please enter at least two items to choose from
+              </p>
+            </>
+          )}
           <div className="list-div">{generateList}</div>
-          <h5 className="delete-message">**click on any item to delete it**</h5>
+          {listContainer.length === 1 && (
+            <p style={{ margin: "1.2rem", marginBottom: "2.4rem" }}>
+              Enter at least one more item to choose from
+            </p>
+          )}
+          {listContainer.length > 0 && (
+            <p className="delete-message">Click on any item to delete it</p>
+          )}
         </div>
       )}
       {appState === "reveal" && (
         <div className="reveal-parent">
-          <div className="reveal-div App-logo">{generateList}</div>
+          <div className={animatedList}>{generateList}</div>
         </div>
       )}
 
@@ -140,6 +176,7 @@ function App() {
           <button
             className="button-style"
             onClick={() => {
+              setAnimatedList("reveal-div reveal-again");
               // setAppState("initial");
               setListContainer(lastGroup);
               chooseAgainWith();
@@ -155,6 +192,7 @@ function App() {
               );
               // setAppState("initial");
               chooseAgainWithout();
+              setAnimatedList("reveal-div reveal-again");
               console.log("new choices:", listContainer);
             }}
           >
