@@ -62,6 +62,7 @@ function App() {
         onChangeText("");
         event.preventDefault();
         setAppState("initial");
+        setPlaceholder("enter item here");
       }
     } else {
       setPlaceholder("Invalid entry. Item was blank");
@@ -81,6 +82,7 @@ function App() {
     setListContainer([choice]);
     setSelectedItem(choice);
     setAppState("reveal");
+    setPlaceholder("The decision has been made!");
   };
 
   const resetReveal = () => {
@@ -193,6 +195,7 @@ function App() {
             onClick={() => {
               setAppState("initial");
               setListContainer([]);
+              setPlaceholder("enter item here");
             }}
           >
             Start Over
