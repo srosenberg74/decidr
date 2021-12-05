@@ -330,7 +330,7 @@
 }
 
 form {
-  margin: 2rem;
+  margin: 1rem;
   margin-bottom: 0.8rem;
 }
 
@@ -350,7 +350,7 @@ input:focus {
   border: solid 2px rgb(59, 114, 139);
   border-radius: 25px;
   width: 45vw;
-  height: 54vh;
+  height: 52vh;
   margin: 1vh auto;
   padding: 4vh;
   padding-bottom: 4.4vh;
@@ -360,7 +360,7 @@ input:focus {
 }
 
 .list-div {
-  max-height: 54vh;
+  max-height: 52vh;
   overflow-y: auto;
   text-align: center;
   font-size: 2rem;
@@ -376,14 +376,15 @@ input:focus {
   border: solid 2px rgb(59, 114, 139);
   border-radius: 25px;
   width: 45vw;
-  height: 54vh;
+  height: 52vh;
   margin: 5vh auto;
   padding: 4vh;
   margin-top: 1vh;
+  margin-bottom: 1vh;
 }
 
 .reveal-div {
-  height: 54vh;
+  height: 52vh;
   overflow: visible;
   width: 44vw;
   text-align: center;

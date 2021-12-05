@@ -1,9 +1,10 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
+import AddItem from "./components/AddItem";
+import DisplayList from "./components/DisplayList";
 
 function App() {
   const [listContainer, setListContainer] = useState([]);
-  const [text, onChangeText] = useState("");
   const [placeholder, setPlaceholder] = useState("enter item here");
   const [appState, setAppState] = useState("initial");
   const [revealFontSize, setRevealFontSize] = useState("2.4rem");
@@ -29,9 +30,9 @@ function App() {
       }
     } else {
       if (selectedItem.length > 7) {
-        setRevealFontSize("1.8rem");
+        setRevealFontSize("1.4rem");
       } else {
-        setRevealFontSize("3rem");
+        setRevealFontSize("2.4rem");
       }
     }
   }, [viewWidth, selectedItem, appState]);
@@ -55,55 +56,6 @@ function App() {
     }
     setAnimNumber(anim);
     setLastAnim(anim);
-  };
-
-  const deleteItem = (index) =>
-    setListContainer(listContainer.filter((value, i) => i !== index));
-
-  const generateList = listContainer.map((items, index) => (
-    <div key={index}>
-      {appState === "initial" && (
-        <button className="item-holder" onClick={() => deleteItem(index)}>
-          <h3 style={itemStyle}>{items}</h3>
-        </button>
-      )}
-      {appState === "reveal" && (
-        <div className={`reveal-holder reveal-${animNumber.toString()}`}>
-          <h3 style={itemStyle}>{items}</h3>
-        </div>
-      )}
-    </div>
-  ));
-
-  const addItem = (event) => {
-    if (text.trim().length > 0) {
-      const cleanedInput = text.trim().toLowerCase();
-      if (
-        listContainer.find(
-          (entry) => entry.trim().toLowerCase() === cleanedInput
-        )
-      ) {
-        setPlaceholder("This is a duplicate entry");
-        onChangeText("");
-        event.preventDefault();
-        setAppState("initial");
-      } else {
-        setListContainer([...listContainer, text.trim()]);
-        setPlaceholder("enter item here");
-        onChangeText("");
-        event.preventDefault();
-        setAppState("initial");
-        setPlaceholder("enter item here");
-      }
-    } else {
-      setPlaceholder("Invalid entry. Item was blank");
-      event.preventDefault();
-    }
-  };
-
-  const handleChange = (event) => {
-    onChangeText(event.target.value);
-    event.preventDefault();
   };
 
   const chooseItem = () => {
@@ -165,7 +117,13 @@ function App() {
               </p>
             </>
           )}
-          <div className="list-div">{generateList}</div>
+          <DisplayList
+            setListContainer={setListContainer}
+            listContainer={listContainer}
+            itemStyle={itemStyle}
+            appState={appState}
+            animNumber={animNumber}
+          />
           {listContainer.length === 1 && (
             <div style={{ margin: "1.2rem", marginBottom: "2.4rem" }}>
               <p style={{ marginBottom: ".3rem" }}>
@@ -183,22 +141,21 @@ function App() {
       )}
       {appState === "reveal" && (
         <div className="reveal-parent">
-          <div className={animatedList}>{generateList}</div>
+          <div className={animatedList}>
+            {" "}
+            <div className={`reveal-holder reveal-${animNumber.toString()}`}>
+              <h3 style={itemStyle}>{listContainer}</h3>
+            </div>
+          </div>
         </div>
       )}
-
-      <form onSubmit={addItem}>
-        <input
-          type="text"
-          value={text}
-          onChange={handleChange}
-          placeholder={placeholder}
-          autoFocus
-        ></input>
-        <button className="button-style" type="submit">
-          Add Item
-        </button>
-      </form>
+      <AddItem
+        listContainer={listContainer}
+        setListContainer={setListContainer}
+        placeholder={placeholder}
+        setPlaceholder={setPlaceholder}
+        setAppState={setAppState}
+      />
       {listContainer.length > 1 && appState === "initial" && (
         <>
           <button
