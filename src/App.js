@@ -18,7 +18,6 @@ function App() {
 
   useEffect(() => {
     setViewWidth(window.innerWidth);
-    console.log(viewWidth);
     if (viewWidth > 700) {
       setRevealFontSize("6rem");
       if (viewWidth < 1000 && selectedItem.length > 7) {
@@ -30,9 +29,9 @@ function App() {
       }
     } else {
       if (selectedItem.length > 7) {
-        setRevealFontSize("1.4rem");
+        setRevealFontSize("1.8rem");
       } else {
-        setRevealFontSize("2.4rem");
+        setRevealFontSize("3rem");
       }
     }
   }, [viewWidth, selectedItem, appState]);
@@ -56,7 +55,6 @@ function App() {
     }
     setAnimNumber(anim);
     setLastAnim(anim);
-    console.log(animatedList);
   };
 
   const deleteItem = (index) =>
@@ -124,7 +122,6 @@ function App() {
     setAppState("initial");
     setAppState("reveal");
     setAnimatedList("reveal-div reveal-" + animNumber.toString());
-    console.log(animatedList);
   };
 
   const chooseAgainWith = () => {
@@ -143,7 +140,6 @@ function App() {
       setListContainer(["list is empty"]);
       return;
     }
-    console.log(lastGroup);
     let updatedGroup = lastGroup.filter((item) => item !== selectedItem);
     const choice =
       updatedGroup[Math.floor(Math.random() * updatedGroup.length)];
@@ -171,11 +167,16 @@ function App() {
           )}
           <div className="list-div">{generateList}</div>
           {listContainer.length === 1 && (
-            <p style={{ margin: "1.2rem", marginBottom: "2.4rem" }}>
-              Enter at least one more item to choose from
-            </p>
+            <div style={{ margin: "1.2rem", marginBottom: "2.4rem" }}>
+              <p style={{ marginBottom: ".3rem" }}>
+                Enter at least one more item to choose from.
+              </p>
+              <p style={{ fontStyle: "italic", fontSize: ".9rem" }}>
+                Click on any item to delete it
+              </p>
+            </div>
           )}
-          {listContainer.length > 0 && (
+          {listContainer.length > 1 && (
             <p className="delete-message">Click on any item to delete it</p>
           )}
         </div>
@@ -219,7 +220,7 @@ function App() {
           </button>
         </>
       )}
-      {appState === "reveal" && (
+      {appState === "reveal" && listContainer[0] !== "list is empty" && (
         <div>
           <button
             className="button-style"
@@ -240,22 +241,23 @@ function App() {
               );
               chooseAgainWithout();
               setAnimatedList("reveal-div reveal-" + animNumber.toString());
-              console.log("new choices:", listContainer);
             }}
           >
             Choose again without {listContainer}
           </button>
-          <button
-            className="button-style"
-            onClick={() => {
-              setAppState("initial");
-              setListContainer([]);
-              setPlaceholder("enter item here");
-            }}
-          >
-            Start Over
-          </button>
         </div>
+      )}
+      {appState === "reveal" && (
+        <button
+          className="button-style"
+          onClick={() => {
+            setAppState("initial");
+            setListContainer([]);
+            setPlaceholder("enter item here");
+          }}
+        >
+          Start Over
+        </button>
       )}
     </div>
   );
