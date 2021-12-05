@@ -9,23 +9,30 @@ function App() {
   const [revealFontSize, setRevealFontSize] = useState("2.4rem");
   const [lastGroup, setLastGroup] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
-  const [animatedList, setAnimatedList] = useState("reveal-div App-logo");
+  const [animNumber, setAnimNumber] = useState(1);
+  const [animatedList, setAnimatedList] = useState(
+    `reveal-div reveal-${animNumber.toString()}`
+  );
   const [viewWidth, setViewWidth] = useState(0);
+  const [lastAnim, setLastAnim] = useState(0);
 
   useEffect(() => {
     setViewWidth(window.innerWidth);
     console.log(viewWidth);
     if (viewWidth > 700) {
       setRevealFontSize("6rem");
-      if (selectedItem.length > 9) {
+      if (viewWidth < 1000 && selectedItem.length > 7) {
+        setRevealFontSize("4rem");
+      } else if (selectedItem.length > 9) {
         setRevealFontSize("3rem");
-      }
-      if (selectedItem.length < 5) {
+      } else if (selectedItem.length < 5) {
         setRevealFontSize("9rem");
       }
     } else {
       if (selectedItem.length > 7) {
         setRevealFontSize("1.4rem");
+      } else {
+        setRevealFontSize("2.4rem");
       }
     }
   }, [viewWidth, selectedItem, appState]);
@@ -41,6 +48,17 @@ function App() {
     };
   }
 
+  const chooseAnim = () => {
+    // hard-coded number of animations in next line
+    let anim = Math.floor(Math.random() * 11) + 1;
+    if (anim === lastAnim) {
+      chooseAnim();
+    }
+    setAnimNumber(anim);
+    setLastAnim(anim);
+    console.log(animatedList);
+  };
+
   const deleteItem = (index) =>
     setListContainer(listContainer.filter((value, i) => i !== index));
 
@@ -52,7 +70,7 @@ function App() {
         </button>
       )}
       {appState === "reveal" && (
-        <div className="reveal-holder App-logo">
+        <div className={`reveal-holder reveal-${animNumber.toString()}`}>
           <h3 style={itemStyle}>{items}</h3>
         </div>
       )}
@@ -91,6 +109,7 @@ function App() {
   };
 
   const chooseItem = () => {
+    chooseAnim();
     setLastGroup(listContainer);
     const choice =
       listContainer[Math.floor(Math.random() * listContainer.length)];
@@ -101,20 +120,24 @@ function App() {
   };
 
   const resetReveal = () => {
+    chooseAnim();
     setAppState("initial");
     setAppState("reveal");
-    setAnimatedList("reveal-div App-logo");
+    setAnimatedList("reveal-div reveal-" + animNumber.toString());
+    console.log(animatedList);
   };
 
   const chooseAgainWith = () => {
+    chooseAnim();
     const choice = lastGroup[Math.floor(Math.random() * lastGroup.length)];
     setListContainer([choice]);
     setSelectedItem(choice);
-    setAnimatedList("reveal-div App-logo");
+    setAnimatedList("reveal-div reveal-" + animNumber.toString());
     resetReveal();
   };
 
   const chooseAgainWithout = () => {
+    chooseAnim();
     // *** this next line should be lastGroup.length < 1, app is behaving incorrectly, need to find bug, unless it is just because of delay in state updating
     if (lastGroup.length < 2) {
       setListContainer(["list is empty"]);
@@ -127,7 +150,7 @@ function App() {
     setListContainer([choice]);
     setSelectedItem(choice);
     setLastGroup(updatedGroup);
-    setAnimatedList("reveal-div App-logo");
+    setAnimatedList("reveal-div reveal-" + animNumber.toString());
     resetReveal();
   };
 
@@ -175,17 +198,34 @@ function App() {
           Add Item
         </button>
       </form>
-      {listContainer.length > 1 && (
-        <button className="button-style" onClick={chooseItem}>
-          Select Item
-        </button>
+      {listContainer.length > 1 && appState === "initial" && (
+        <>
+          <button
+            className="button-style"
+            onClick={() => {
+              chooseAnim();
+              chooseItem();
+            }}
+          >
+            Select Item
+          </button>
+          <button
+            className="button-style"
+            onClick={() => {
+              setListContainer([]);
+            }}
+          >
+            Clear List
+          </button>
+        </>
       )}
       {appState === "reveal" && (
         <div>
           <button
             className="button-style"
             onClick={() => {
-              setAnimatedList("reveal-div reveal-again");
+              chooseAnim();
+              setAnimatedList("reveal-div reveal-" + animNumber.toString());
               setListContainer(lastGroup);
               chooseAgainWith();
             }}
@@ -199,7 +239,7 @@ function App() {
                 lastGroup.filter((item) => item !== selectedItem)
               );
               chooseAgainWithout();
-              setAnimatedList("reveal-div reveal-again");
+              setAnimatedList("reveal-div reveal-" + animNumber.toString());
               console.log("new choices:", listContainer);
             }}
           >
